@@ -1,16 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
+import { getStudents } from "../store";
 
-class Campuses extends React.Component {
+class Students extends React.Component {
   componentDidMount() {
-    this.props.loadCampuses();
+    this.props.loadStudents();
   }
   render() {
     return (
       <div>
         <ul>
-          {this.props.campuses.map((campus) => {
-            return <li key={campus.id}> {campus.imageUrl} </li>;
+          {this.props.students.map((student) => {
+            return <li key={student.id}> {student.firstName} </li>;
           })}
         </ul>
       </div>
@@ -19,15 +20,15 @@ class Campuses extends React.Component {
 }
 
 const mapState = (state) => {
-  console.log("this is state", state.campuses);
+  console.log("this is state", state.students);
   return {
-    campuses: state.campuses,
+    students: state.students,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCampuses: () => dispatch(getCampuses()),
+    loadStudents: () => dispatch(getStudents()),
   };
 };
 
-export default connect(mapState, mapDispatchToProps)(Campuses);
+export default connect(mapState, mapDispatchToProps)(Students);

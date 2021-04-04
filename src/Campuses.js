@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { getCampuses } from "../store";
+import { Link } from "react-router-dom";
 
 class Campuses extends React.Component {
   componentDidMount() {
@@ -14,8 +15,13 @@ class Campuses extends React.Component {
           {this.props.campuses.map((campus) => {
             return (
               <li key={campus.id}>
-                {campus.name}
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2R_ae_CqD2EKOTo6r6JkrkhtctHLcVKSUEnQQOxRHTyyrDe_H71S4SItPb-DtuDDO84YodONJ&usqp=CAc"></img>
+                <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
+                <img
+                  className="logo"
+                  height="100"
+                  width="100"
+                  src={campus.imageURL}
+                ></img>
               </li>
             );
           })}
