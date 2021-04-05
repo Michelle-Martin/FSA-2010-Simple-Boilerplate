@@ -28,10 +28,27 @@ app.get("/campuses", async (req, res, next) => {
   }
 });
 
-app.get("/campuses/:id", async (req, res, next) => {
+app.post("/campuses", async (req, res, next) => {
   try {
-    const campus = await Campus.findByPk(req.params.id);
-    res.send(campus);
+    const newCampus = await Campus.create(req.body);
+    res.send(newCampus);
+  } catch (ex) {
+    next(ex);
+  }
+});
+app.put("/campuses/:id", async (req, res, next) => {
+  try {
+    const updatedCampus = await Campus.findByPk(req.params.id).update(req.body);
+    res.send(updatedCampus);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.delete("/campuses/:id", async (req, res, next) => {
+  try {
+    await Campus.findByPk(req.params.id).destroy();
+    res.sendStatus(204);
   } catch (ex) {
     next(ex);
   }
@@ -44,6 +61,15 @@ app.get("/students", async (req, res, next) => {
     console.log(ex);
   }
   next();
+});
+
+app.get("/students/:id", async (req, res, next) => {
+  try {
+    const student = await Student.findByPk(req.params.id);
+    res.send(student);
+  } catch (ex) {
+    next(ex);
+  }
 });
 
 const init = async () => {
