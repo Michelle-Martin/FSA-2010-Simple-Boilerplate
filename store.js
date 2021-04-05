@@ -3,7 +3,6 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { logger } from "redux-logger";
 
-const GET_CAMPUSES = "GET_CAMPUSES";
 const SET_CAMPUSES = "SET_CAMPUSES";
 const SET_STUDENTS = "SET_STUDENTS";
 const initialState = [];
@@ -54,6 +53,7 @@ export const getStudents = () => {
     dispatch(setStudents(students));
   };
 };
+
 const root = combineReducers({
   campuses: campusesReducer,
   students: studentsReducer,

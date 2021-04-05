@@ -2,30 +2,49 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { getCampuses } from "../store";
-import { Link } from "react-router-dom";
 
 class SingleCampus extends React.Component {
   componentDidMount() {
+    this.props.loadCampuses();
     console.log(this.props);
   }
+
   render() {
     return (
       <div>
-        <h1>hi</h1>
+        {this.props.match.params.id}
+        <ul>
+          {this.props.campuses
+            .map((campus) => {
+              return (
+                <li key={campus.id}>
+                  {campus.name}
+                  <img
+                    className="logo"
+                    height="100"
+                    width="100"
+                    src={campus.imageURL}
+                  ></img>
+                </li>
+              );
+            })
+            .filter((campus) => campus.id === this.props.match.params.id)}
+        </ul>
+        <div>details </div>
       </div>
     );
   }
 }
+
 const mapState = (state) => {
-  console.log("this is state", state.campuses);
   return {
     campuses: state.campuses,
   };
 };
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     loadCampuses: () => dispatch(getCampuses()),
-//   };
-// };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadCampuses: () => dispatch(getCampuses()),
+  };
+};
 
-export default SingleCampus;
+export default connect(mapState, mapDispatchToProps)(SingleCampus);

@@ -6,6 +6,8 @@ import Campuses from "./Campuses";
 import Students from "./Students";
 import SingleCampus from "./SingleCampus";
 
+const Nav = ({ location: { pathname } }) => {};
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -22,12 +24,9 @@ class App extends Component {
             <Link to="/"> Campuses</Link>
             <Link to="/students"> Students</Link>
           </div>
-
-          <Switch>
-            <Route exact path="/" component={Campuses} />
-            <Route path="/students" component={Students} />
-            <Route path="campuses/:id" component={SingleCampus} />
-          </Switch>
+          <Route component={Campuses} path="/" exact />
+          <Route component={Students} path="/students" exact />
+          <Route component={SingleCampus} path="/campuses/:id" />
         </div>
       </Router>
     );
