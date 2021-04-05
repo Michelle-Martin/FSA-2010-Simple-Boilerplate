@@ -4,13 +4,17 @@ import thunk from "redux-thunk";
 import { logger } from "redux-logger";
 
 const SET_CAMPUSES = "SET_CAMPUSES";
+const GET_CAMPUS = "GET_CAMPUS";
 const SET_STUDENTS = "SET_STUDENTS";
-const initialState = [];
+const initialState = {
+  campuses: [],
+  students: [],
+};
 
 const campusesReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CAMPUSES:
-      return action.campuses;
+      return { ...state, campuses: action.campuses };
 
     default:
       return state;
@@ -19,7 +23,7 @@ const campusesReducer = (state = initialState, action) => {
 const studentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_STUDENTS:
-      return action.students;
+      return { ...state, students: action.students };
 
     default:
       return state;
@@ -28,6 +32,7 @@ const studentsReducer = (state = initialState, action) => {
 
 //action creator
 export const setCampuses = (campuses) => {
+  console.log(campuses);
   return {
     campuses,
     type: SET_CAMPUSES,
@@ -46,6 +51,13 @@ export const getCampuses = () => {
     dispatch(setCampuses(campuses));
   };
 };
+export const getCampus = () => {
+  return async (dispatch) => {
+    const { data: campus } = await axios.get("/campuses/:id");
+    console.log(campus);
+    dispatch(setCampuses(campus));
+  };
+};
 export const getStudents = () => {
   return async (dispatch) => {
     const { data: students } = await axios.get("/students");
@@ -55,8 +67,8 @@ export const getStudents = () => {
 };
 
 const root = combineReducers({
-  campuses: campusesReducer,
-  students: studentsReducer,
+  campusesReducer,
+  studentsReducer,
 });
 
 const store = createStore(root, applyMiddleware(thunk, logger));

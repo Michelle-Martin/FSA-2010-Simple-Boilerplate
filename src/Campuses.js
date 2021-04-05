@@ -5,14 +5,20 @@ import { getCampuses } from "../store";
 import { Link } from "react-router-dom";
 
 class Campuses extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   componentDidMount() {
-    this.props.loadCampuses();
+    this.props.load();
+    console.log("moutned!");
   }
   render() {
+    const campuses = this.props.campuses || [];
+    console.log("props is: ", this.props);
     return (
       <div>
         <ul>
-          {this.props.campuses.map((campus) => {
+          {campuses.map((campus) => {
             return (
               <li key={campus.id}>
                 <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>
@@ -34,13 +40,11 @@ class Campuses extends React.Component {
 const mapState = (state) => {
   console.log("this is state", state.campuses);
   return {
-    campuses: state.campuses,
+    campuses: state.campusesReducer.campuses,
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadCampuses: () => dispatch(getCampuses()),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  load: () => dispatch(getCampuses()),
+});
 
 export default connect(mapState, mapDispatchToProps)(Campuses);
