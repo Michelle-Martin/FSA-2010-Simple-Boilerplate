@@ -1,7 +1,7 @@
 import React from "react";
-import axios from "axios";
+
 import { connect } from "react-redux";
-import { getCampuses } from "../store";
+import { deleteCampus, createCampus, loadCampuses } from "../store";
 import { Link } from "react-router-dom";
 
 class Campuses extends React.Component {
@@ -47,4 +47,9 @@ const mapDispatchToProps = (dispatch) => ({
   load: () => dispatch(getCampuses()),
 });
 
-export default connect(mapState, mapDispatchToProps)(Campuses);
+// const mapDispatchToProps= (dispatch)=> {
+//     return {
+//       ..create..delete
+//     }
+// }
+export default connect(mapStateToProps, mapDispatchToProps)(Campuses);

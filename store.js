@@ -34,21 +34,60 @@ const studentsReducer = (state = initialState, action) => {
 export const setCampuses = (campuses) => {
   console.log(campuses);
   return {
+    type: LOAD_CAMPUSES,
     campuses,
-    type: SET_CAMPUSES,
   };
 };
-export const setStudents = (students) => {
+const _createCampus = (campus) => {
+  type: CREATE_CAMPUS, campus;
+};
+const _deleteCampus = (campus) => ({
+  type: DELETE_CAMPUS,
+  campus,
+});
+
+const _setStudents = (students) => {
   return {
     students,
     type: SET_STUDENTS,
   };
 };
-export const getCampuses = () => {
+
+//reducers
+const campusesReducer = (state = [], action) => {
+  switch (action.type) {
+    case LOAD_CAMPUSES:
+      state = action.campuses;
+      break;
+    case CREATE_CAMPUS:
+      state = [...state, action.campus];
+      break;
+    case DELETE_CAMPUS:
+      state = state.filter((campus) => campus.id !== action.campus.id);
+      break;
+  }
+  return state;
+};
+
+const studentsReducer = (state = [], action) => {
+  switch (action.type) {
+    case SET_STUDENTS:
+      state = action.students;
+      break;
+  }
+  return state;
+};
+
+const root = combineReducers({
+  campuses: campusesReducer,
+  students: studentsReducer,
+});
+
+//effects
+const loadCampuses = () => {
   return async (dispatch) => {
-    const { data: campuses } = await axios.get("/campuses");
-    console.log(campuses);
-    dispatch(setCampuses(campuses));
+    const campuses = (await axios.get("/campuses")).data;
+    dispatch(_loadCampuses(campuses));
   };
 };
 export const getCampus = () => {
@@ -62,7 +101,7 @@ export const getStudents = () => {
   return async (dispatch) => {
     const { data: students } = await axios.get("/students");
     console.log(students);
-    dispatch(setStudents(students));
+    dispatch(_setStudents(students));
   };
 };
 
@@ -74,3 +113,5 @@ const root = combineReducers({
 const store = createStore(root, applyMiddleware(thunk, logger));
 
 export default store;
+
+export { loadCampuses, getStudents, deleteCampus, createCampus };
