@@ -47,7 +47,8 @@ app.put("/campuses/:id", async (req, res, next) => {
 
 app.delete("/campuses/:id", async (req, res, next) => {
   try {
-    await Campus.findByPk(req.params.id).destroy();
+    const campus = Campus.findByPk(req.params.id);
+    await campus.destroy();
     res.sendStatus(204);
   } catch (ex) {
     next(ex);

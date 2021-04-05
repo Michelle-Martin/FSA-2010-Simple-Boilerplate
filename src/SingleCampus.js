@@ -14,8 +14,11 @@ const SingleCampus = ({ campus, deleteCampus }) => {
   );
 };
 
-const mapStateToProps = ({ campuses }, { id }) => {
-  const campus = campuses.find((campus) => campus.id === id);
+const mapStateToProps = (state, otherProps) => {
+  const campus =
+    state.campuses.find(
+      (campus) => campus.id === otherProps.match.params.id * 1
+    ) || {};
   return {
     campus,
   };

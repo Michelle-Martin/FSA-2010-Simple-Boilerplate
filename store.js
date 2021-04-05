@@ -62,11 +62,9 @@ const root = combineReducers({
 
 //effects
 const loadCampuses = () => {
-  return (dispatch) => {
-    return axios
-      .get("/campuses")
-      .then((response) => response.data)
-      .then((campuses) => dispatch(_loadCampuses(campuses)));
+  return async (dispatch) => {
+    const campuses = (await axios.get("/campuses")).data;
+    dispatch(_loadCampuses(campuses));
   };
 };
 
@@ -78,21 +76,18 @@ const getStudents = () => {
   };
 };
 
-const createCampus = (campus) => {
-  return (dispatch) => {
-    return axios
-      .post("/campuses", campus)
-      .then((res) => res.data)
-      .then((campus) => dispatch(_createCampus(campus)));
+const createCampus = (name, history) => {
+  return async (dispatch) => {
+    const campus = (await axios.post("/campuses", { name })).data;
+    dispatch(_createCampus(campus));
+    history.push(`campuses/${campus.id}`);
   };
 };
 const deleteCampus = (campus, history) => {
-  return (dispatch) => {
-    return axios
-      .delete(`/campuses/${id}`)
-      .then((res) => res.data)
-      .then(() => dispatch(_deleteCampus(campus)))
-      .then(() => history && history.push("/campuses"));
+  return async (dispatch) => {
+    await axios.delete(`/campuses/${campus.id}`);
+    dispatch(_deleteCampus(campus));
+    history.push("/campuses");
   };
 };
 

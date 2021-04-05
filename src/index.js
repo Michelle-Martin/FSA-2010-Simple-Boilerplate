@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import store, {
   loadCampuses,
   getStudents,
@@ -17,10 +18,9 @@ const app = document.querySelector("#app");
 
 // const Nav = ({ location: { pathname } }) => {};
 
-class App extends Component {
+class _App extends Component {
   ComponentDidMount() {
-    store.dispatch(loadCampuses());
-    console.log("app mounted");
+    this.props.load();
   }
   render() {
     return (
@@ -49,9 +49,18 @@ class App extends Component {
 //   load: () => dispatch(getCampuses()),
 // });
 
+const App = connect(
+  ({ campuses }) => ({ campuses }),
+  (dispatch) => {
+    return {
+      load: () => dispatch(loadCampuses()),
+    };
+  }
+)(_App);
+
 render(
   <Provider store={store}>
-    <App />
+    <_App />
   </Provider>,
   app
 );
