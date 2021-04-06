@@ -1,7 +1,7 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import { deleteCampus, createCampus, loadCampuses } from "../store";
+import { getCampuses } from "../store";
 import { Link } from "react-router-dom";
 
 class Campuses extends React.Component {
@@ -52,4 +52,4 @@ const mapDispatchToProps = (dispatch) => ({
 //       ..create..delete
 //     }
 // }
-export default connect(mapStateToProps, mapDispatchToProps)(Campuses);
+export default connect(mapState, mapDispatchToProps)(Campuses);

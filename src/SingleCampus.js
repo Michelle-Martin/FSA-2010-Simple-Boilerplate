@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import { getCampuses, getCampus } from "../store";
 
@@ -16,6 +17,7 @@ class SingleCampus extends React.Component {
         {this.props.campuses.find(
           (campus) => campus.id === this.props.match.params.id
         )}{" "} */}
+        <h1> hi </h1>
       </div>
     );
   }
@@ -24,7 +26,7 @@ class SingleCampus extends React.Component {
 const mapState = (state) => {
   console.log(state);
   return {
-    campus,
+    campuses: state.campuses,
   };
 };
 
